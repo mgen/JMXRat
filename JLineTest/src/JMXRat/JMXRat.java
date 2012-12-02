@@ -1,8 +1,6 @@
 package JMXRat;
 
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
+import com.sun.tools.attach.*;
 import jline.console.ConsoleReader;
 import jline.console.completer.ArgumentCompleter;
 import jline.console.completer.NullCompleter;
@@ -10,17 +8,19 @@ import jline.console.completer.StringsCompleter;
 import jline.internal.TerminalLineSettings;
 
 import javax.management.*;
+import javax.management.remote.JMXConnectionNotification;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.util.*;
 
 
 
-public class JMXRat implements Runnable{
+public class JMXRat implements Runnable, NotificationListener{
 
 
 
@@ -31,6 +31,12 @@ public class JMXRat implements Runnable{
     //understandable Description
     String[] cmplKeys;
     PrintWriter out;
+    //Color
+    public static final String GREEN = "\u001B[1;32m";
+    public static final String DGREEN = "\u001B[0;32m";
+    public static final String WHITE = "\u001B[0m";
+    public static final String RED = "\u001B[0;31m";
+
     //String for the prompt-line
     String promptTxt;
     //Completor field
@@ -43,6 +49,7 @@ public class JMXRat implements Runnable{
     public Map<String, VirtualMachine> runningApps=null;
     //Map of Methods of the current connected JooFlux Application
     public HashMap<String,String[]> methodMap=new HashMap<String, String[]>();
+    String[] methodArr;
 
 public static void main(String[] args){
 
@@ -79,8 +86,13 @@ public static void main(String[] args){
         //Setting up prompt
         reader = new ConsoleReader();
         reader.setHistoryEnabled(true);
-        out = new PrintWriter(System.out);
-        promptTxt="prompt> ";
+        out = new PrintWriter(System.out){
+            public void println(String x){
+               System.out.println(DGREEN + x + WHITE);
+
+            }
+        };
+        promptTxt=DGREEN+ "prompt> "+WHITE;
         //reader.clearScreen();
 
 
@@ -95,9 +107,12 @@ public static void main(String[] args){
     private boolean isCorrectArgument(String[] args) {
 
 
-        if((args.length == 3) && args[0].equalsIgnoreCase("change")
+        if(((args.length == 3) && args[0].equalsIgnoreCase("change")
             && methodMap.containsKey(args[1])
-            && methodMap.containsKey(args[2])){
+            && methodMap.containsKey(args[2]))||
+            ((args.length == 3) && args[0].equalsIgnoreCase("change")
+                    && methodMap.containsValue(args[1])
+                    && methodMap.containsValue(args[2])  )){
                return true;
         }else{
 
@@ -109,14 +124,24 @@ public static void main(String[] args){
 
 
         //Adding Completors
-
-
+        reader.addCompleter (new ArgumentCompleter(
+                new StringsCompleter("refresh"),
+                new NullCompleter()
+        ));
+        reader.addCompleter (new ArgumentCompleter(
+                new StringsCompleter("help"),
+                new NullCompleter()
+        ));
+        reader.addCompleter (new ArgumentCompleter(
+                new StringsCompleter("list"),
+                new NullCompleter()
+        ));
 
         runningApps=findEngines();
 
 
         if(runningApps.size()==0){
-            out.println( "--no javaagent applications detected, type r to refresh")  ;
+            out.println("--no javaagent applications detected, type r to refresh")  ;
           //  cmplValues[0]="--no javaagent applications detected, type r to refresh";
             return;
         }
@@ -139,23 +164,13 @@ public static void main(String[] args){
 
 
         //Add completers containing running processes
-        reader.addCompleter (new ArgumentCompleter(
-                new StringsCompleter("list"),
-                new NullCompleter()
-        ));
+
 
         reader.addCompleter (new ArgumentCompleter(
                 new StringsCompleter("methods"),
                 new NullCompleter()
         ));
-        reader.addCompleter (new ArgumentCompleter(
-                new StringsCompleter("refresh"),
-                new NullCompleter()
-        ));
-        reader.addCompleter (new ArgumentCompleter(
-                new StringsCompleter("help"),
-                new NullCompleter()
-        ));
+
 
         reader.addCompleter (new ArgumentCompleter(
                 new StringsCompleter("connect"),
@@ -208,25 +223,36 @@ public static void main(String[] args){
 
          JMXServiceURL url = new JMXServiceURL(connectorAddress);
 
-        JMXConnector conn = JMXConnectorFactory.connect(url);
+       JMXConnector conn = JMXConnectorFactory.connect(url);
+         conn.addConnectionNotificationListener( this, null, conn );
+
         server = conn.getMBeanServerConnection();
 
 
-     }catch(Exception e){
-            e.printStackTrace();
-        }
+     } catch (AgentInitializationException e) {
+         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+     } catch (MalformedURLException e) {
+         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+     } catch (AgentLoadException e) {
+         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+     } catch (IOException e) {
+         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+     }
+
+
         return server;
     }
 
     public String displayHelp(){
 
-        return "******- JMXRat - Help \n " +
+        return  GREEN+"******- JMXRat - Help \n " +
                 "commands:\n" +
                 "list -\t lists all available running java processes with a JooFlux-Agent \n" +
                 "refresh -\t refreshes the list of running java processes (e.g. if empty) \n" +
                 "connect <process> -\t connects via JMX to chosen process \n" +
                 "methods -\t shows available methods to change of currently connected process \n" +
-                "change <method name> <method name>- \t changes the first method signature into the second, if connected\n";
+                "force <method name> <method name>- - \t try to force change of given methods \n"+
+                "change <method name> <method name>- \t changes the first method signature into the second, if connected\n"+WHITE;
 
 
     }
@@ -265,8 +291,9 @@ public static void main(String[] args){
                     out.flush();
                     addCompletors();
 
+
                 }
-                if (line[0].equalsIgnoreCase("connect")&& runningApps.containsKey(line[1])) {
+                if (line.length==2&&line[0].equalsIgnoreCase("connect")&& runningApps.containsKey(line[1])) {
                     //Check if we are already connected to an application
                     if(mbsc==null){
                         out.println("======> Connecting to"+line[1]);
@@ -285,7 +312,7 @@ public static void main(String[] args){
                         ));*/
 
                         //Change prompt text, when connected
-                        promptTxt="connected >";
+                        promptTxt=DGREEN+"connected >"+WHITE;
                     }else{
                         out.println("======> already connected");
                         out.flush();
@@ -324,9 +351,30 @@ public static void main(String[] args){
 
                 }
 
+                if(mbsc!=null && line.length==3&&line[0].equalsIgnoreCase("force")){
+                    out.println("======> trying forced change of following methods:"+line[1]+line[2]);
+                    out.flush();
+
+                    try{
+                        mbsc.invoke(
+                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                "changeCallSiteTarget",
+                                new Object[]{(String)mbsc.invoke(
+                                        new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                        "getCallSiteType",
+                                        new Object[]{line[1]},new String[]{String.class.getName()}),
+                                        line[1],
+                                        line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+                    }catch (Exception e){
+                        out.println("Changing failed or methods incorrect");
+                        e.printStackTrace();
+                    }
+
+                }
+
                 if (mbsc!=null && isCorrectArgument(line)) {
                        //TODO: Supporting both changing, long and short forms, change without arguments exception, all arguments not available?
-                    out.println("======> Changing following methods:"+line);
+                    out.println("======> Changing following methods:"+line[1]+line[2]);
                     //Change call Site Target
                     try {
                         /*
@@ -334,16 +382,60 @@ public static void main(String[] args){
                         line[1]= first method
                         line[2]= second method
                          */
+                        //Change, if methodMaps contains the short, readable Version of the Method name
+                        if(methodMap.containsKey(line[1])&&methodMap.containsKey(line[2])){
+
+
                         mbsc.invoke(
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "changeCallSiteTarget",
                                 new Object[]{methodMap.get(line[1])[0],
                                         methodMap.get(line[1])[1],
                                         methodMap.get(line[2])[1],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+                        }
+                        //Change, if methodMaps contains the short, readable Version of the Method name
+                     /*First Attempt via methodMap valueSearch
+                        for (Map.Entry e : methodMap.entrySet()){
+                            String[] strE= (String[]) e.getValue();
+                            for (Map.Entry f : methodMap.entrySet()){
+                                    String[] strF= (String[]) f.getValue();
+                                    if(line[1].equals(strE[1])&&line[2].equals(strF[1])||line[1].equals(strF[1])&&line[2].equals(strE[1])) {
+                                        mbsc.invoke(
+                                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                                "changeCallSiteTarget",
+                                                new Object[]{                   (String)mbsc.invoke(
+                                                        new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                                        "getCallSiteType",
+                                                        new Object[]{line[1]},new String[]{String.class.getName()}),
+                                                        line[1],
+                                                        line[2],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+                                    }
+                        }
+                        }
+
+                        //Change, if methodMaps contains the short, readable Version of the Method name
+                        if(Arrays.asList(methodArr).contains(line[1]) && Arrays.asList(methodArr).contains(line[2])){
+
+                            mbsc.invoke(
+                                    new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                    "changeCallSiteTarget",
+                                    new Object[]{(String)mbsc.invoke(
+                                            new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                            "getCallSiteType",
+                                            new Object[]{line[1]},new String[]{String.class.getName()}),
+                                            line[1],
+                                            line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+
+                        }     */
+
+
                     } catch (Exception e) {
                         out.println("======> Failed to change method");
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
+
+                }
+
+
 
 
                     out.flush();
@@ -365,7 +457,7 @@ public static void main(String[] args){
 
         try {
 
-            String[] methodArr = (String[]) mbsc.getAttribute(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+            methodArr = (String[]) mbsc.getAttribute(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                     "RegisteredCallSiteKeys");
 
 
@@ -392,13 +484,36 @@ public static void main(String[] args){
                     new StringsCompleter(methodMap.keySet().toArray(new String[0])),
                     new NullCompleter()
             ));
+            //Add forced change completor
+            reader.addCompleter (new ArgumentCompleter(
+                    new StringsCompleter("force"),
+                    new NullCompleter()
+            ));
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
 
     }
 
+    //Listen for JMX-Connection Closing
+    @Override
+    public void handleNotification(Notification notification, Object o) {
+     if(notification instanceof JMXConnectionNotification)   {
 
+         JMXConnectionNotification jmxNotif= (JMXConnectionNotification) notification;
+         String type=jmxNotif.getType();
+
+         if(type.equals( JMXConnectionNotification.FAILED)||
+                 type.equals( JMXConnectionNotification.CLOSED )){
+             System.out.println(RED+"Connection with JooFlux Agent down"+WHITE);
+             System.exit(0);
+         }
+
+     }
+
+    }
 }
 
 
