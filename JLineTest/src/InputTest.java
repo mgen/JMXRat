@@ -14,18 +14,12 @@ public class InputTest {
 
     public static void main (String[] args)         {
         String password = null;
-        try {
 
-            UnixTerminal ut = new UnixTerminal();
+        /*    UnixTerminal ut = new UnixTerminal();
             ut.initializeTerminal();
             ut.beforeReadLine(new ConsoleReader(),"Hello World",new Character('*'));
 
-                    password = new ConsoleReader().readLine(new Character('*'));
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+                    password = new ConsoleReader().readLine(new Character('*'));*/
 
         System.out.print(password);
 

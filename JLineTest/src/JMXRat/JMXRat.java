@@ -1,3 +1,5 @@
+package JMXRat;
+
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
@@ -39,8 +41,8 @@ public class JMXRat implements Runnable{
     MBeanServerConnection mbsc=null;
     //Hashmap containing running applications
     public Map<String, VirtualMachine> runningApps=null;
-    //List of Methods of the current connected JooFlux Application
-    String[] methodArr;
+    //Map of Methods of the current connected JooFlux Application
+    public HashMap<String,String[]> methodMap=new HashMap<String, String[]>();
 
 public static void main(String[] args){
 
@@ -94,8 +96,8 @@ public static void main(String[] args){
 
 
         if((args.length == 3) && args[0].equalsIgnoreCase("change")
-            && Arrays.asList(methodArr).contains(args[1])
-            && Arrays.asList(methodArr).contains(args[2])){
+            && methodMap.containsKey(args[1])
+            && methodMap.containsKey(args[2])){
                return true;
         }else{
 
@@ -271,28 +273,16 @@ public static void main(String[] args){
                         out.flush();
                         //TODO: extend exception handling ==>
                         mbsc =JMXConnect(runningApps.get(line[1]));
-                        //get methods of the application
-                        methodArr = (String[]) mbsc.getAttribute(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                        //get methods of the application, and add them as completors
+                        handleMethodDescriptors();
+                        /*methodArr = (String[]) mbsc.getAttribute(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "RegisteredCallSiteKeys");
 
-
-                        //Change completors to methods
-                        /*     //Form the readable description for the completor
-                        String[] k;
-                        for(int i=0;i<methodArr.length;i++){
-                        k=methodArr[i].split("/");
-                            methodArr[i]=k[k.length-2]+" "+k[strArr.length-1];
-                        }*/
                         reader.addCompleter (new ArgumentCompleter(
                                 new StringsCompleter("change"),
                                 new StringsCompleter(methodArr),
                                 new NullCompleter()
-                        ));
-
-
-                        /*  out.println("Name= " + (String)mbsc.invoke(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                             "getRegisteredCallSiteKeys", new Object[] {}, new String[] {}));
-                        out.flush();*/
+                        ));*/
 
                         //Change prompt text, when connected
                         promptTxt="connected >";
@@ -315,12 +305,13 @@ public static void main(String[] args){
 
                 }
                 if (line[0].equalsIgnoreCase("methods") ) {
-                    if(mbsc!=null&& methodArr !=null){
+                    if(mbsc!=null&& methodMap !=null){
                         out.println("======> Listing application's methods:"+line);
                         //print out all available methods to change of the connected applications
 
-                        for(String item: methodArr){
-                            out.println(item);
+                        for (Map.Entry e : methodMap.entrySet()){
+                            String[] strE= (String[]) e.getValue();
+                            out.println(strE[0]);
                         }
 
                         out.flush();
@@ -334,17 +325,21 @@ public static void main(String[] args){
                 }
 
                 if (mbsc!=null && isCorrectArgument(line)) {
-
+                       //TODO: Supporting both changing, long and short forms, change without arguments exception, all arguments not available?
                     out.println("======> Changing following methods:"+line);
                     //Change call Site Target
                     try {
-
+                        /*
+                        line[0]= change
+                        line[1]= first method
+                        line[2]= second method
+                         */
                         mbsc.invoke(
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "changeCallSiteTarget",
-                                new Object[]{"virtual",
-                                        line[1],
-                                        line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+                                new Object[]{methodMap.get(line[1])[0],
+                                        methodMap.get(line[1])[1],
+                                        methodMap.get(line[2])[1],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
                     } catch (Exception e) {
                         out.println("======> Failed to change method");
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -361,18 +356,45 @@ public static void main(String[] args){
             }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MBeanException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (AttributeNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InstanceNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ReflectionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MalformedObjectNameException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
+
+    }
+
+    public void handleMethodDescriptors(){
+
+        try {
+
+            String[] methodArr = (String[]) mbsc.getAttribute(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                    "RegisteredCallSiteKeys");
+
+
+
+            for(String item:methodArr){
+                String[] strArr=item.split("/");
+             /*   for(String i2:strArr){
+                System.out.println("aaaaaa: "+i2);
+                }*/
+
+
+              methodMap.put(strArr[strArr.length-1], new String[]{
+                   item,
+                   (String)mbsc.invoke(
+                        new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                        "getCallSiteType",
+                        new Object[]{item},new String[]{String.class.getName()})
+                } );
+            }
+            //Add completor with readable method form
+            reader.addCompleter (new ArgumentCompleter(
+                    new StringsCompleter("change"),
+                    new StringsCompleter(methodMap.keySet().toArray(new String[0])),
+                    new StringsCompleter(methodMap.keySet().toArray(new String[0])),
+                    new NullCompleter()
+            ));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

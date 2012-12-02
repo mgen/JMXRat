@@ -6,6 +6,9 @@
  */
 
 import jline.*;
+import jline.console.ConsoleReader;
+import jline.console.completer.FileNameCompleter;
+import jline.console.completer.StringsCompleter;
 
 import java.io.*;
 import java.util.*;
@@ -39,8 +42,7 @@ public class Example {
         String trigger = null;
 
         ConsoleReader reader = new ConsoleReader();
-        reader.setBellEnabled(false);
-        reader.setDebug(new PrintWriter(new FileWriter("writer.debug", true)));
+
 
         if ((args == null) || (args.length == 0)) {
             usage();
@@ -53,15 +55,8 @@ public class Example {
         if (args.length > 0) {
             if (args[0].equals("none")) {
             } else if (args[0].equals("files")) {
-                completors.add(new FileNameCompletor());
-            } else if (args[0].equals("classes")) {
-                completors.add(new ClassNameCompletor());
-            } else if (args[0].equals("dictionary")) {
-                completors.add(new SimpleCompletor(new GZIPInputStream(
-                        Example.class.getResourceAsStream("english.gz"))));
-            } else if (args[0].equals("simple")) {
-                completors.add(new SimpleCompletor(new String[] { "foo", "bar",
-                        "baz" }));
+                completors.add(new FileNameCompleter());
+
             } else {
                 usage();
 
@@ -74,7 +69,7 @@ public class Example {
             trigger = args[1];
         }
 
-        reader.addCompletor(new ArgumentCompletor(completors));
+        //reader.addCompleter(new ArgumentCompleter(completors));
 
         String line;
         PrintWriter out = new PrintWriter(System.out);

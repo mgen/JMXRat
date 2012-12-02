@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3ce8739f-bc22-4067-af5e-13e309c2026b" name="Default" comment="Problem solved: Terminal not responding on exit. Added help, cleanup, minor bugfixes. TODO: connect -">
+    <list default="true" id="3ce8739f-bc22-4067-af5e-13e309c2026b" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/JMXRat.java" afterPath="$PROJECT_DIR$/src/JMXRat/JMXRat.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Example.java" afterPath="$PROJECT_DIR$/src/Example.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/InputTest.java" afterPath="$PROJECT_DIR$/src/InputTest.java" />
     </list>
     <ignored path="JLineTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,7 +66,7 @@
       <file leaf-file-name="InputTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/InputTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="87" selection-start="499" selection-end="499" vertical-scroll-proportion="0.0">
+            <state line="30" column="36" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -79,11 +82,23 @@
         </entry>
       </file>
       <file leaf-file-name="JMXRat.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/JMXRat.java">
+        <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="380" column="4" selection-start="14204" selection-end="14204" vertical-scroll-proportion="1.9345795">
+            <state line="327" column="142" selection-start="12020" selection-end="12020" vertical-scroll-proportion="0.3427835">
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1314#1332#0" expanded="true" />
+                <element signature="e#4877#4901#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Example.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Example.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="71" column="10" selection-start="2370" selection-end="2370" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="method#usage#0;class#Example#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -92,7 +107,7 @@
       <file leaf-file-name="TestVM.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TestVM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="81" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
+            <state line="51" column="50" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -101,7 +116,7 @@
       <file leaf-file-name="JmxConnectorDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JmxConnectorDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="31" selection-start="647" selection-end="665" vertical-scroll-proportion="0.0">
+            <state line="62" column="186" selection-start="2390" selection-end="2913" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -120,25 +135,31 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/InputTest.java" />
-        <option value="$PROJECT_DIR$/src/Example.java" />
         <option value="$PROJECT_DIR$/src/JMXConnectorTest2.java" />
         <option value="$PROJECT_DIR$/src/JMXConnectorDialog.java" />
         <option value="$PROJECT_DIR$/src/JMXConnectorTest.java" />
         <option value="$PROJECT_DIR$/src/JmxConnectorDialog.java" />
         <option value="$PROJECT_DIR$/src/TestVM.java" />
         <option value="$PROJECT_DIR$/src/CompletorTest.java" />
+        <option value="$PROJECT_DIR$/src/MethodDescriptor.java" />
         <option value="$PROJECT_DIR$/src/JMXRat.java" />
+        <option value="$PROJECT_DIR$/src/Example.java" />
+        <option value="$PROJECT_DIR$/src/InputTest.java" />
+        <option value="$PROJECT_DIR$/src/JMXRat/JMXRat.java" />
       </list>
     </option>
   </component>
   <component name="MavenProjectNavigator">
     <treeState />
   </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="1.7" />
+  </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="-2" />
     <option name="y" value="25" />
-    <option name="width" value="1920" />
-    <option name="height" value="1141" />
+    <option name="width" value="1924" />
+    <option name="height" value="1143" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -166,16 +187,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -186,6 +197,16 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="JLineTest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -222,6 +243,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JLineTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JLineTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JMXRat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -234,7 +273,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="options.lastSelected" value="MavenSettings" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -300,7 +339,7 @@
       <method />
     </configuration>
     <configuration default="false" name="JMXRat" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="JMXRat" />
+      <option name="MAIN_CLASS_NAME" value="JMXRat.JMXRat" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -546,7 +585,11 @@
       <created>1353460391485</created>
       <updated>1353460391485</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Problem solved: Terminal not responding on exit. Added help, cleanup, minor bugfixes. TODO: connect -">
+      <created>1353716234552</created>
+      <updated>1353716234552</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -570,27 +613,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1920" height="1141" extended-state="6" />
-    <editor active="false" />
+    <frame x="-2" y="25" width="1924" height="1143" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" sideWeight="0.49786323" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39966556" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31695086" sideWeight="0.5007587" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17051153" sideWeight="0.50747865" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32798395" sideWeight="0.47916666" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.6705686" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.6705686" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24946581" sideWeight="0.68304914" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31772575" sideWeight="0.4908953" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13301282" sideWeight="0.82948846" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31695086" sideWeight="0.48878205" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.4939302" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -688,19 +731,9 @@
         <state line="47" column="62" selection-start="1513" selection-end="1529" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Example.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="36" selection-start="730" selection-end="730" vertical-scroll-proportion="0.4712042" />
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-7-openjdk-i386/jre/lib/rt.jar!/java/lang/Thread.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="76" column="16" selection-start="3326" selection-end="3326" vertical-scroll-proportion="0.33333334" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/InputTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="87" selection-start="499" selection-end="499" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CompletorTest.java">
@@ -708,21 +741,40 @@
         <state line="50" column="0" selection-start="2088" selection-end="2341" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/InputTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="36" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/TestVM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="81" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0" />
+        <state line="51" column="50" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JmxConnectorDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="31" selection-start="647" selection-end="665" vertical-scroll-proportion="0.0" />
+        <state line="62" column="186" selection-start="2390" selection-end="2913" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/JMXRat.java">
+    <entry file="file://$PROJECT_DIR$/src/Example.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="380" column="4" selection-start="14204" selection-end="14204" vertical-scroll-proportion="1.9345795">
+        <state line="71" column="10" selection-start="2370" selection-end="2370" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#usage#0;class#Example#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="327" column="142" selection-start="12020" selection-end="12020" vertical-scroll-proportion="0.3427835">
+          <folding>
+            <element signature="e#1314#1332#0" expanded="true" />
+            <element signature="e#4877#4901#0" expanded="true" />
           </folding>
         </state>
       </provider>
