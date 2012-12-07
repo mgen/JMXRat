@@ -19,9 +19,7 @@ import java.net.MalformedURLException;
 import java.util.*;
 
 
-
-public class JMXRat implements Runnable, NotificationListener{
-
+public class JMXRat implements Runnable, NotificationListener {
 
 
     //--Console:
@@ -44,55 +42,55 @@ public class JMXRat implements Runnable, NotificationListener{
     ArgumentCompleter arc;
 
     //--MBeans Conncection
-    MBeanServerConnection mbsc=null;
+    MBeanServerConnection mbsc = null;
     //Hashmap containing running applications
-    public Map<String, VirtualMachine> runningApps=null;
+    public Map<String, VirtualMachine> runningApps = null;
     //Map of Methods of the current connected JooFlux Application
-    public HashMap<String,String[]> methodMap=new HashMap<String, String[]>();
+    public HashMap<String, String[]> methodMap = new HashMap<String, String[]>();
     String[] methodArr;
 
-public static void main(String[] args){
+    public static void main(String[] args) {
 
-    try {
-        JMXRat jr =new JMXRat();
-        //Start Thread, monitoring the shell input
-        (new Thread(new JMXRat())).start();
-        //manage the problem on exit, that the terminal does not respond anymore
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-               System.out.println("Restoring old terminal...");
-                TerminalLineSettings t= null;
-                try {
-                    t = new TerminalLineSettings();
-                    t.restore();
-                } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (InterruptedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        try {
+            JMXRat jr = new JMXRat();
+            //Start Thread, monitoring the shell input
+            (new Thread(new JMXRat())).start();
+            //manage the problem on exit, that the terminal does not respond anymore
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    System.out.println("Restoring old terminal...");
+                    TerminalLineSettings t = null;
+                    try {
+                        t = new TerminalLineSettings();
+                        t.restore();
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
                 }
+            });
 
-            }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
-    } catch (Exception e) {
-        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
     }
-
-
-}
 
     public JMXRat() throws Exception {
 
         //Setting up prompt
         reader = new ConsoleReader();
         reader.setHistoryEnabled(true);
-        out = new PrintWriter(System.out){
-            public void println(String x){
-               System.out.println(DGREEN + x + WHITE);
+        out = new PrintWriter(System.out) {
+            public void println(String x) {
+                System.out.println(DGREEN + x + WHITE);
 
             }
         };
-        promptTxt=DGREEN+ "prompt> "+WHITE;
+        promptTxt = DGREEN + "prompt> " + WHITE;
         //reader.clearScreen();
 
 
@@ -101,64 +99,63 @@ public static void main(String[] args){
         String line;
 
 
-
     }
 
     private boolean isCorrectArgument(String[] args) {
 
 
-        if(((args.length == 3) && args[0].equalsIgnoreCase("change")
-            && methodMap.containsKey(args[1])
-            && methodMap.containsKey(args[2]))||
-            ((args.length == 3) && args[0].equalsIgnoreCase("change")
-                    && methodMap.containsValue(args[1])
-                    && methodMap.containsValue(args[2])  )){
-               return true;
-        }else{
+        if (((args.length == 3) && args[0].equalsIgnoreCase("change")
+                && methodMap.containsKey(args[1])
+                && methodMap.containsKey(args[2])) ||
+                ((args.length == 3) && args[0].equalsIgnoreCase("change")
+                        && methodMap.containsValue(args[1])
+                        && methodMap.containsValue(args[2]))) {
+            return true;
+        } else {
 
-       return false;
+            return false;
         }
     }
 
-    private void addCompletors(){
+    private void addCompletors() {
 
 
         //Adding Completors
-        reader.addCompleter (new ArgumentCompleter(
+        reader.addCompleter(new ArgumentCompleter(
                 new StringsCompleter("refresh"),
                 new NullCompleter()
         ));
-        reader.addCompleter (new ArgumentCompleter(
+        reader.addCompleter(new ArgumentCompleter(
                 new StringsCompleter("help"),
                 new NullCompleter()
         ));
-        reader.addCompleter (new ArgumentCompleter(
+        reader.addCompleter(new ArgumentCompleter(
                 new StringsCompleter("list"),
                 new NullCompleter()
         ));
 
-        runningApps=findEngines();
+        runningApps = findEngines();
 
 
-        if(runningApps.size()==0){
-            out.println("--no javaagent applications detected, type r to refresh")  ;
-          //  cmplValues[0]="--no javaagent applications detected, type r to refresh";
+        if (runningApps.size() == 0) {
+            out.println("--no javaagent applications detected, type r to refresh");
+            //  cmplValues[0]="--no javaagent applications detected, type r to refresh";
             return;
         }
 
         //full Description
-        cmplValues=new String[runningApps.size()];
+        cmplValues = new String[runningApps.size()];
         //understandable Description
-        cmplKeys=new String[runningApps.size()];
+        cmplKeys = new String[runningApps.size()];
 
-        try{
-        int index = 0;
-        for (Map.Entry<String, VirtualMachine> mapEntry : runningApps.entrySet()) {
-            cmplValues[index] = mapEntry.getValue().getAgentProperties().toString();
-            cmplKeys[index] = mapEntry.getKey().toString();
-            index++;
-        }
-        }catch (Exception e){
+        try {
+            int index = 0;
+            for (Map.Entry<String, VirtualMachine> mapEntry : runningApps.entrySet()) {
+                cmplValues[index] = mapEntry.getValue().getAgentProperties().toString();
+                cmplKeys[index] = mapEntry.getKey().toString();
+                index++;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -166,18 +163,17 @@ public static void main(String[] args){
         //Add completers containing running processes
 
 
-        reader.addCompleter (new ArgumentCompleter(
+        reader.addCompleter(new ArgumentCompleter(
                 new StringsCompleter("methods"),
                 new NullCompleter()
         ));
 
 
-        reader.addCompleter (new ArgumentCompleter(
+        reader.addCompleter(new ArgumentCompleter(
                 new StringsCompleter("connect"),
                 new StringsCompleter(cmplKeys),
                 new NullCompleter()
         ));
-
 
 
     }
@@ -188,16 +184,16 @@ public static void main(String[] args){
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
 
 
-        for (VirtualMachineDescriptor vmd: list) {
+        for (VirtualMachineDescriptor vmd : list) {
             //Form the readable description for the completor
-            String[] strArr=vmd.toString().split(" ");
-            String desc =strArr[strArr.length-2]+"-"+strArr[strArr.length-1];
+            String[] strArr = vmd.toString().split(" ");
+            String desc = strArr[strArr.length - 2] + "-" + strArr[strArr.length - 1];
             try {
-              //Check, whether JooFlux, or an Agent is connected.
-             // if(VirtualMachine.attach(vmd).getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress")!=null){
-                if(VirtualMachine.attach(vmd).getAgentProperties().get("sun.jvm.args").toString().contains("jooflux")){
-                  result.put(desc, VirtualMachine.attach(vmd));
-              }
+                //Check, whether JooFlux, or an Agent is connected.
+                // if(VirtualMachine.attach(vmd).getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress")!=null){
+                if (VirtualMachine.attach(vmd).getAgentProperties().get("sun.jvm.args").toString().contains("jooflux")) {
+                    result.put(desc, VirtualMachine.attach(vmd));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (AttachNotSupportedException e) {
@@ -208,51 +204,51 @@ public static void main(String[] args){
     }
 
     private MBeanServerConnection JMXConnect(VirtualMachine vm) {
-        MBeanServerConnection server=null;
-     try{
-         Properties props = vm.getAgentProperties();
-         String connectorAddress = props.getProperty("com.sun.management.jmxremote.localConnectorAddress");
-         if (connectorAddress == null) {
-             props = vm.getSystemProperties();
-             String home = props.getProperty("java.home");
-             String agent = home + File.separator + "lib" + File.separator + "management-agent.jar";
-             vm.loadAgent(agent);
-             props = vm.getAgentProperties();
-             connectorAddress = props.getProperty("com.sun.management.jmxremote.localConnectorAddress");
-         }
+        MBeanServerConnection server = null;
+        try {
+            Properties props = vm.getAgentProperties();
+            String connectorAddress = props.getProperty("com.sun.management.jmxremote.localConnectorAddress");
+            if (connectorAddress == null) {
+                props = vm.getSystemProperties();
+                String home = props.getProperty("java.home");
+                String agent = home + File.separator + "lib" + File.separator + "management-agent.jar";
+                vm.loadAgent(agent);
+                props = vm.getAgentProperties();
+                connectorAddress = props.getProperty("com.sun.management.jmxremote.localConnectorAddress");
+            }
 
-         JMXServiceURL url = new JMXServiceURL(connectorAddress);
+            JMXServiceURL url = new JMXServiceURL(connectorAddress);
 
-       JMXConnector conn = JMXConnectorFactory.connect(url);
-         conn.addConnectionNotificationListener( this, null, conn );
+            JMXConnector conn = JMXConnectorFactory.connect(url);
+            conn.addConnectionNotificationListener(this, null, conn);
 
-        server = conn.getMBeanServerConnection();
+            server = conn.getMBeanServerConnection();
 
 
-     } catch (AgentInitializationException e) {
-         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-     } catch (MalformedURLException e) {
-         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-     } catch (AgentLoadException e) {
-         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-     } catch (IOException e) {
-         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-     }
+        } catch (AgentInitializationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (MalformedURLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (AgentLoadException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
 
         return server;
     }
 
-    public String displayHelp(){
+    public String displayHelp() {
 
-        return  GREEN+"******- JMXRat - Help \n " +
+        return GREEN + "******- JMXRat - Help \n " +
                 "commands:\n" +
                 "list -\t lists all available running java processes with a JooFlux-Agent \n" +
                 "refresh -\t refreshes the list of running java processes (e.g. if empty) \n" +
                 "connect <process> -\t connects via JMX to chosen process \n" +
                 "methods -\t shows available methods to change of currently connected process \n" +
-                "force <method name> <method name>- - \t try to force change of given methods \n"+
-                "change <method name> <method name>- \t changes the first method signature into the second, if connected\n"+WHITE;
+                "force <method name> <method name>- - \t try to force change of given methods \n" +
+                "change <method name> <method name>- \t changes the first method signature into the second, if connected\n" + WHITE;
 
 
     }
@@ -276,14 +272,15 @@ public static void main(String[] args){
                     out.flush();
                 }
                 if (line[0].equalsIgnoreCase("list")) {
-                    if(cmplValues==null){
+                    if (cmplValues == null) {
                         out.println("======>No JooFlux-applications found");
 
-                    } else{
+                    } else {
                         out.println("======> List of currently running JooFlux-applications");
-                        for (int i=0; i<cmplValues.length; i++){
-                            out.println("\n"+cmplValues[i]);
-                        }      }
+                        for (int i = 0; i < cmplValues.length; i++) {
+                            out.println("\n" + cmplValues[i]);
+                        }
+                    }
                     out.flush();
                 }
                 if (line[0].equalsIgnoreCase("refresh")) {
@@ -293,13 +290,13 @@ public static void main(String[] args){
 
 
                 }
-                if (line.length==2&&line[0].equalsIgnoreCase("connect")&& runningApps.containsKey(line[1])) {
+                if (line.length == 2 && line[0].equalsIgnoreCase("connect") && runningApps.containsKey(line[1])) {
                     //Check if we are already connected to an application
-                    if(mbsc==null){
-                        out.println("======> Connecting to"+line[1]);
+                    if (mbsc == null) {
+                        out.println("======> Connecting to" + line[1]);
                         out.flush();
                         //TODO: extend exception handling ==>
-                        mbsc =JMXConnect(runningApps.get(line[1]));
+                        mbsc = JMXConnect(runningApps.get(line[1]));
                         //get methods of the application, and add them as completors
                         handleMethodDescriptors();
                         /*methodArr = (String[]) mbsc.getAttribute(new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
@@ -312,8 +309,8 @@ public static void main(String[] args){
                         ));*/
 
                         //Change prompt text, when connected
-                        promptTxt=DGREEN+"connected >"+WHITE;
-                    }else{
+                        promptTxt = DGREEN + "connected >" + WHITE;
+                    } else {
                         out.println("======> already connected");
                         out.flush();
                     }
@@ -331,50 +328,89 @@ public static void main(String[] args){
 
 
                 }
-                if (line[0].equalsIgnoreCase("methods") ) {
-                    if(mbsc!=null&& methodMap !=null){
-                        out.println("======> Listing application's methods:"+line);
+                if (line[0].equalsIgnoreCase("methods")) {
+                    if (mbsc != null && methodMap != null) {
+                        out.println("======> Listing application's methods:" + line);
                         //print out all available methods to change of the connected applications
 
-                        for (Map.Entry e : methodMap.entrySet()){
-                            String[] strE= (String[]) e.getValue();
+                        for (Map.Entry e : methodMap.entrySet()) {
+                            String[] strE = (String[]) e.getValue();
                             out.println(strE[0]);
                         }
 
                         out.flush();
 
-                    }else{
+                    } else {
                         //if not connected to JooFlux-Application,
-                        out.println("======> Listing application's methods failed - not connected or no methods available to change"+line);
+                        out.println("======> Listing application's methods failed - not connected or no methods available to change" + line);
                         out.flush();
                     }
 
                 }
 
-                if(mbsc!=null && line.length==3&&line[0].equalsIgnoreCase("force")){
-                    out.println("======> trying forced change of following methods:"+line[1]+line[2]);
+                if (mbsc != null && line.length == 3 && line[0].equalsIgnoreCase("force")) {
+                    out.println("======> trying forced change of following methods:" + line[1] + line[2]);
                     out.flush();
 
-                    try{
+                    try {
                         mbsc.invoke(
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "changeCallSiteTarget",
-                                new Object[]{(String)mbsc.invoke(
+                                new Object[]{(String) mbsc.invoke(
                                         new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                         "getCallSiteType",
-                                        new Object[]{line[1]},new String[]{String.class.getName()}),
+                                        new Object[]{line[1]}, new String[]{String.class.getName()}),
                                         line[1],
-                                        line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
-                    }catch (Exception e){
+                                        line[2]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                    } catch (Exception e) {
                         out.println("Changing failed or methods incorrect");
                         e.printStackTrace();
                     }
 
                 }
+                    //Applying Aspects before method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
+                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
+                    out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                    out.flush();
 
-                if (mbsc!=null && isCorrectArgument(line)) {
-                       //TODO: Supporting both changing, long and short forms, change without arguments exception, all arguments not available?
-                    out.println("======> Changing following methods:"+line[1]+line[2]);
+                    try {
+                        mbsc.invoke(
+                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                "applyBeforeAspect",
+                                new Object[]{
+                                        line[1],
+                                        line[2],
+                                        line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                    } catch (Exception e) {
+                        out.println("applying Aspect before Method execution failed.");
+                        e.printStackTrace();
+                    }
+
+                }
+
+                //Applying Aspects after method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
+                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
+                    out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                    out.flush();
+
+                    try {
+                        mbsc.invoke(
+                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                "applyAfterAspect",
+                                new Object[]{
+                                        line[1],
+                                        line[2],
+                                        line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                    } catch (Exception e) {
+                        out.println("applying Aspect after Method execution failed.");
+                        e.printStackTrace();
+                    }
+
+                }
+
+                if (mbsc != null && isCorrectArgument(line)) {
+                    //TODO: Supporting both changing, long and short forms, change without arguments exception, all arguments not available?
+                    out.println("======> Changing following methods:" + line[1] + line[2]);
                     //Change call Site Target
                     try {
                         /*
@@ -383,66 +419,62 @@ public static void main(String[] args){
                         line[2]= second method
                          */
                         //Change, if methodMaps contains the short, readable Version of the Method name
-                        if(methodMap.containsKey(line[1])&&methodMap.containsKey(line[2])){
+                        if (methodMap.containsKey(line[1]) && methodMap.containsKey(line[2])) {
 
-
-                        mbsc.invoke(
-                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                "changeCallSiteTarget",
-                                new Object[]{methodMap.get(line[1])[0],
-                                        methodMap.get(line[1])[1],
-                                        methodMap.get(line[2])[1],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
-                        }
-                        //Change, if methodMaps contains the short, readable Version of the Method name
-                     /*First Attempt via methodMap valueSearch
-                        for (Map.Entry e : methodMap.entrySet()){
-                            String[] strE= (String[]) e.getValue();
-                            for (Map.Entry f : methodMap.entrySet()){
-                                    String[] strF= (String[]) f.getValue();
-                                    if(line[1].equals(strE[1])&&line[2].equals(strF[1])||line[1].equals(strF[1])&&line[2].equals(strE[1])) {
-                                        mbsc.invoke(
-                                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                                "changeCallSiteTarget",
-                                                new Object[]{                   (String)mbsc.invoke(
-                                                        new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                                        "getCallSiteType",
-                                                        new Object[]{line[1]},new String[]{String.class.getName()}),
-                                                        line[1],
-                                                        line[2],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
-                                    }
-                        }
-                        }
-
-                        //Change, if methodMaps contains the short, readable Version of the Method name
-                        if(Arrays.asList(methodArr).contains(line[1]) && Arrays.asList(methodArr).contains(line[2])){
 
                             mbsc.invoke(
                                     new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                     "changeCallSiteTarget",
-                                    new Object[]{(String)mbsc.invoke(
-                                            new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                            "getCallSiteType",
-                                            new Object[]{line[1]},new String[]{String.class.getName()}),
-                                            line[1],
-                                            line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+                                    new Object[]{methodMap.get(line[1])[0],
+                                            methodMap.get(line[1])[1],
+                                            methodMap.get(line[2])[1],}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                        }
+                        //Change, if methodMaps contains the short, readable Version of the Method name
+                        /*First Attempt via methodMap valueSearch
+                   for (Map.Entry e : methodMap.entrySet()){
+                       String[] strE= (String[]) e.getValue();
+                       for (Map.Entry f : methodMap.entrySet()){
+                               String[] strF= (String[]) f.getValue();
+                               if(line[1].equals(strE[1])&&line[2].equals(strF[1])||line[1].equals(strF[1])&&line[2].equals(strE[1])) {
+                                   mbsc.invoke(
+                                           new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                           "changeCallSiteTarget",
+                                           new Object[]{                   (String)mbsc.invoke(
+                                                   new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                                   "getCallSiteType",
+                                                   new Object[]{line[1]},new String[]{String.class.getName()}),
+                                                   line[1],
+                                                   line[2],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+                               }
+                   }
+                   }
 
-                        }     */
+                   //Change, if methodMaps contains the short, readable Version of the Method name
+                   if(Arrays.asList(methodArr).contains(line[1]) && Arrays.asList(methodArr).contains(line[2])){
+
+                       mbsc.invoke(
+                               new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                               "changeCallSiteTarget",
+                               new Object[]{(String)mbsc.invoke(
+                                       new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                       "getCallSiteType",
+                                       new Object[]{line[1]},new String[]{String.class.getName()}),
+                                       line[1],
+                                       line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
+
+                   }     */
 
 
                     } catch (Exception e) {
                         out.println("======> Failed to change method");
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 
-                }
-
-
+                    }
 
 
                     out.flush();
 
                 }
-
-
 
 
             }
@@ -453,7 +485,7 @@ public static void main(String[] args){
 
     }
 
-    public void handleMethodDescriptors(){
+    public void handleMethodDescriptors() {
 
         try {
 
@@ -461,37 +493,36 @@ public static void main(String[] args){
                     "RegisteredCallSiteKeys");
 
 
-
-            for(String item:methodArr){
-                String[] strArr=item.split("/");
-             /*   for(String i2:strArr){
+            for (String item : methodArr) {
+                String[] strArr = item.split("/");
+                /*   for(String i2:strArr){
                 System.out.println("aaaaaa: "+i2);
                 }*/
 
 
-              methodMap.put(strArr[strArr.length-1], new String[]{
-                   item,
-                   (String)mbsc.invoke(
-                        new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                        "getCallSiteType",
-                        new Object[]{item},new String[]{String.class.getName()})
-                } );
+                methodMap.put(strArr[strArr.length - 1], new String[]{
+                        item,
+                        (String) mbsc.invoke(
+                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                "getCallSiteType",
+                                new Object[]{item}, new String[]{String.class.getName()})
+                });
             }
             //Add completor with readable method form
-            reader.addCompleter (new ArgumentCompleter(
+            reader.addCompleter(new ArgumentCompleter(
                     new StringsCompleter("change"),
                     new StringsCompleter(methodMap.keySet().toArray(new String[0])),
                     new StringsCompleter(methodMap.keySet().toArray(new String[0])),
                     new NullCompleter()
             ));
             //Add forced change completor
-            reader.addCompleter (new ArgumentCompleter(
+            reader.addCompleter(new ArgumentCompleter(
                     new StringsCompleter("force"),
                     new NullCompleter()
             ));
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -500,18 +531,18 @@ public static void main(String[] args){
     //Listen for JMX-Connection Closing
     @Override
     public void handleNotification(Notification notification, Object o) {
-     if(notification instanceof JMXConnectionNotification)   {
+        if (notification instanceof JMXConnectionNotification) {
 
-         JMXConnectionNotification jmxNotif= (JMXConnectionNotification) notification;
-         String type=jmxNotif.getType();
+            JMXConnectionNotification jmxNotif = (JMXConnectionNotification) notification;
+            String type = jmxNotif.getType();
 
-         if(type.equals( JMXConnectionNotification.FAILED)||
-                 type.equals( JMXConnectionNotification.CLOSED )){
-             System.out.println(RED+"Connection with JooFlux Agent down"+WHITE);
-             System.exit(0);
-         }
+            if (type.equals(JMXConnectionNotification.FAILED) ||
+                    type.equals(JMXConnectionNotification.CLOSED)) {
+                System.out.println(RED + "Connection with JooFlux Agent down" + WHITE);
+                System.exit(0);
+            }
 
-     }
+        }
 
     }
 }
