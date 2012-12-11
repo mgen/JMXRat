@@ -375,8 +375,7 @@ public class JMXRat implements Runnable, NotificationListener {
                 }
                     //Applying Aspects before method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
                 if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
-                    out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
-                    out.flush();
+
 
                     try {
                         mbsc.invoke(
@@ -386,6 +385,9 @@ public class JMXRat implements Runnable, NotificationListener {
                                         methodMap.get(line[1])[1],
                                         line[2],
                                         line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+
+                        out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                        out.flush();
                     } catch (Exception e) {
                         out.println("applying Aspect before Method execution failed.");
                         e.printStackTrace();
@@ -395,10 +397,11 @@ public class JMXRat implements Runnable, NotificationListener {
 
                 //Applying Aspects after method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
                 if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyAfter")) {
-                    out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
-                    out.flush();
+
 
                     try {
+
+
                         mbsc.invoke(
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "applyAfterAspect",
@@ -406,6 +409,9 @@ public class JMXRat implements Runnable, NotificationListener {
                                         methodMap.get(line[1])[0],
                                         line[2],
                                         line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+
+                        out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                        out.flush();
                     } catch (Exception e) {
                         out.println("applying Aspect after Method execution failed.");
                         e.printStackTrace();
