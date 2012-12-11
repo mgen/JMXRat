@@ -30,10 +30,11 @@ public class JMXRat implements Runnable, NotificationListener {
     String[] cmplKeys;
     PrintWriter out;
     //Color
-    public static final String GREEN = "\u001B[1;32m";
-    public static final String DGREEN = "\u001B[0;32m";
-    public static final String WHITE = "\u001B[0m";
-    public static final String RED = "\u001B[0;31m";
+    public static  String GREEN ;
+    public static  String DGREEN;
+    public static  String WHITE;
+    public static  String RED;
+
 
     //String for the prompt-line
     String promptTxt;
@@ -93,6 +94,8 @@ public class JMXRat implements Runnable, NotificationListener {
         promptTxt = DGREEN + "prompt> " + WHITE;
         //reader.clearScreen();
 
+        //determine whether OS is Windows, then no colors, else ANSI colors for shell enabled
+        setColors();
 
         addCompletors();
 
@@ -247,6 +250,8 @@ public class JMXRat implements Runnable, NotificationListener {
                 "refresh -\t refreshes the list of running java processes (e.g. if empty) \n" +
                 "connect <process> -\t connects via JMX to chosen process \n" +
                 "methods -\t shows available methods to change of currently connected process \n" +
+                "applyAfter <callSitesKey> <aspectClass>- <aspectMethod> - \t apply Aspect after Method Execution\n" +
+                "applyBefore <callSitesKey> <aspectClass>- <aspectMethod> - \t apply Aspect before Method Execution\n" +
                 "force <method name> <method name>- - \t try to force change of given methods \n" +
                 "change <method name> <method name>- \t changes the first method signature into the second, if connected\n" + WHITE;
 
@@ -378,7 +383,7 @@ public class JMXRat implements Runnable, NotificationListener {
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "applyBeforeAspect",
                                 new Object[]{
-                                        line[1],
+                                        methodMap.get(line[1])[1],
                                         line[2],
                                         line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                     } catch (Exception e) {
@@ -389,7 +394,7 @@ public class JMXRat implements Runnable, NotificationListener {
                 }
 
                 //Applying Aspects after method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
-                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
+                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyAfter")) {
                     out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
                     out.flush();
 
@@ -398,7 +403,7 @@ public class JMXRat implements Runnable, NotificationListener {
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                 "applyAfterAspect",
                                 new Object[]{
-                                        line[1],
+                                        methodMap.get(line[1])[0],
                                         line[2],
                                         line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                     } catch (Exception e) {
@@ -419,7 +424,7 @@ public class JMXRat implements Runnable, NotificationListener {
                         line[2]= second method
                          */
                         //Change, if methodMaps contains the short, readable Version of the Method name
-                        if (methodMap.containsKey(line[1]) && methodMap.containsKey(line[2])) {
+                        if (methodMap.containsKey(line[1])) {
 
 
                             mbsc.invoke(
@@ -427,7 +432,7 @@ public class JMXRat implements Runnable, NotificationListener {
                                     "changeCallSiteTarget",
                                     new Object[]{methodMap.get(line[1])[0],
                                             methodMap.get(line[1])[1],
-                                            methodMap.get(line[2])[1],}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                                            line[2]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                         }
                         //Change, if methodMaps contains the short, readable Version of the Method name
                         /*First Attempt via methodMap valueSearch
@@ -512,7 +517,6 @@ public class JMXRat implements Runnable, NotificationListener {
             reader.addCompleter(new ArgumentCompleter(
                     new StringsCompleter("change"),
                     new StringsCompleter(methodMap.keySet().toArray(new String[0])),
-                    new StringsCompleter(methodMap.keySet().toArray(new String[0])),
                     new NullCompleter()
             ));
             //Add forced change completor
@@ -520,10 +524,39 @@ public class JMXRat implements Runnable, NotificationListener {
                     new StringsCompleter("force"),
                     new NullCompleter()
             ));
+            //Add applyBeforeAspect change completor
+            reader.addCompleter(new ArgumentCompleter(
+                    new StringsCompleter("applyBefore"),
+                    new StringsCompleter(methodMap.keySet().toArray(new String[0])),
+                    new NullCompleter()
+            ));
+            //Add applyAfterAspect change completor
+            reader.addCompleter(new ArgumentCompleter(
+                    new StringsCompleter("applyAfter"),
+                    new StringsCompleter(methodMap.keySet().toArray(new String[0])),
+                    new NullCompleter()
+            ));
 
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+    }
+    public static void setColors(){
+        String OS = System.getProperty("os.name").toLowerCase();
+
+
+        if(OS.indexOf("win") >= 0){
+            GREEN = "";
+            DGREEN = "";
+            WHITE = "";
+            RED = "";
+        } else{
+        GREEN = "\u001B[1;32m";
+        DGREEN = "\u001B[0;32m";
+        WHITE = "\u001B[0m";
+        RED = "\u001B[0;31m";
         }
 
     }
