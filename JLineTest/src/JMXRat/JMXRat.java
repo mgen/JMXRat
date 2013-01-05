@@ -73,6 +73,8 @@ public class JMXRat implements Runnable, NotificationListener {
                 }
             });
 
+        } catch(AttachNotSupportedException e2){
+
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -200,7 +202,8 @@ public class JMXRat implements Runnable, NotificationListener {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (AttachNotSupportedException e) {
-                e.printStackTrace();
+                 //suppressing, as it happens on routine startup
+                //e.printStackTrace();
             }
         }
         return result;
@@ -373,38 +376,64 @@ public class JMXRat implements Runnable, NotificationListener {
                     }
 
                 }
-                    //Applying Aspects before method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
-                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
+                    //Applying Aspects after method execution with: applyBeforeAspect(String callSitesKey, String aspectClass, String aspectMethod)
+                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyAfter")) {
+
+                     //Try to invoke the applyBeforeMethod using the short form of the method name, if it fails, use the long form
+                    try{
+                        System.out.println(methodMap.get(line[1])[0]+"\n" + line[2]+"\n" + line[3]);
 
 
+                            mbsc.invoke(
+                                    new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                    "applyAfterAspect",
+                                    new Object[]{
+                                            methodMap.get(line[1])[0],
+                                            line[2],
+                                            line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+
+                            out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                            out.flush();
+
+
+                    }catch(Exception e){
+
+
+                            //long form
+                    System.out.println(line[1]+"\n" + line[2]+"\n" + line[3]);
                     try {
+
                         mbsc.invoke(
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                "applyBeforeAspect",
+                                "applyAfterAspect",
                                 new Object[]{
-                                        methodMap.get(line[1])[1],
+                                        line[1],
                                         line[2],
                                         line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
 
                         out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
                         out.flush();
-                    } catch (Exception e) {
+                    } catch (Exception e2) {
                         out.println("applying Aspect before Method execution failed.");
+                        e2.printStackTrace();
                         e.printStackTrace();
                     }
 
                 }
 
+                }
+
                 //Applying Aspects after method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
-                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyAfter")) {
+                if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
 
-
-                    try {
+                    //Try to invoke the applyBeforeMethod using the short form of the method name, if it fails, use the long form
+                    try{
+                        System.out.println(methodMap.get(line[1])[0]+"\n" + line[2]+"\n" + line[3]);
 
 
                         mbsc.invoke(
                                 new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                "applyAfterAspect",
+                                "applyBeforeAspect",
                                 new Object[]{
                                         methodMap.get(line[1])[0],
                                         line[2],
@@ -412,9 +441,31 @@ public class JMXRat implements Runnable, NotificationListener {
 
                         out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
                         out.flush();
-                    } catch (Exception e) {
-                        out.println("applying Aspect after Method execution failed.");
-                        e.printStackTrace();
+
+
+                    }catch(Exception e){
+
+
+                        //long form
+                        System.out.println(line[1]+"\n" + line[2]+"\n" + line[3]);
+                        try {
+
+                            mbsc.invoke(
+                                    new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                    "applyBeforeAspect",
+                                    new Object[]{
+                                            line[1],
+                                            line[2],
+                                            line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+
+                            out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                            out.flush();
+                        } catch (Exception e2) {
+                            out.println("applying Aspect before Method execution failed.");
+                            e2.printStackTrace();
+                            e.printStackTrace();
+                        }
+
                     }
 
                 }

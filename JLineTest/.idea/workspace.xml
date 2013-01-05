@@ -4,6 +4,7 @@
     <list default="true" id="3ce8739f-bc22-4067-af5e-13e309c2026b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/JMXRat/JMXRat.java" afterPath="$PROJECT_DIR$/src/JMXRat/JMXRat.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/JmxConnectorDialog.java" afterPath="$PROJECT_DIR$/src/JmxConnectorDialog.java" />
     </list>
     <ignored path="JLineTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,12 +83,8 @@
       <file leaf-file-name="JMXRat.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="409" column="49" selection-start="16734" selection-end="16742" vertical-scroll-proportion="0.75716066">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1461#1479#0" expanded="true" />
-                <element signature="e#5653#5677#0" expanded="true" />
-              </folding>
+            <state line="639" column="177" selection-start="27103" selection-end="27103" vertical-scroll-proportion="1.1139817">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -113,7 +110,7 @@
       <file leaf-file-name="JmxConnectorDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JmxConnectorDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="80" selection-start="1849" selection-end="1849" vertical-scroll-proportion="0.0">
+            <state line="46" column="84" selection-start="2003" selection-end="2003" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -135,13 +132,13 @@
         <option value="$PROJECT_DIR$/src/JMXConnectorTest2.java" />
         <option value="$PROJECT_DIR$/src/JMXConnectorDialog.java" />
         <option value="$PROJECT_DIR$/src/JMXConnectorTest.java" />
-        <option value="$PROJECT_DIR$/src/JmxConnectorDialog.java" />
         <option value="$PROJECT_DIR$/src/TestVM.java" />
         <option value="$PROJECT_DIR$/src/CompletorTest.java" />
         <option value="$PROJECT_DIR$/src/MethodDescriptor.java" />
         <option value="$PROJECT_DIR$/src/JMXRat.java" />
         <option value="$PROJECT_DIR$/src/Example.java" />
         <option value="$PROJECT_DIR$/src/InputTest.java" />
+        <option value="$PROJECT_DIR$/src/JmxConnectorDialog.java" />
         <option value="$PROJECT_DIR$/src/JMXRat/JMXRat.java" />
       </list>
     </option>
@@ -184,6 +181,20 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JLineTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="JLineTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -232,20 +243,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="JMXRat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JLineTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JLineTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -602,7 +599,11 @@
       <created>1355186546515</created>
       <updated>1355186546515</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Colors in the shell now depend on the OS. Apply after and before have now autocompletion and use short forms of the callSiteKeys. The secound argument in the &quot;change&quot; - command is no longer autocompleted. 2">
+      <created>1355226796836</created>
+      <updated>1355226796836</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -626,7 +627,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="25" width="1922" height="1145" extended-state="6" />
+    <frame x="-1" y="25" width="1922" height="1145" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32898697" sideWeight="0.49786323" order="7" side_tool="false" content_ui="tabs" />
@@ -634,16 +635,16 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39966556" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17017017" sideWeight="0.49839744" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3153153" sideWeight="0.5277778" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32798395" sideWeight="0.47916666" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32732734" sideWeight="0.4684829" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943144" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13247864" sideWeight="0.6826827" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11965812" sideWeight="0.1961962" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.6705686" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13247864" sideWeight="0.14014015" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31695086" sideWeight="0.48878205" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11965812" sideWeight="0.4814815" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31445312" sideWeight="0.48023504" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" sideWeight="0.49786323" order="1" side_tool="false" content_ui="tabs" />
@@ -688,7 +689,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Colors in the shell now depend on the OS. Apply after and before have now autocompletion and use short forms of the callSiteKeys. The secound argument in the &quot;change&quot; - command is no longer autocompleted." />
+    <option name="LAST_COMMIT_MESSAGE" value="Colors in the shell now depend on the OS. Apply after and before have now autocompletion and use short forms of the callSiteKeys. The secound argument in the &quot;change&quot; - command is no longer autocompleted. 2" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -714,6 +715,7 @@
     <MESSAGE value="Added JMX connection closing handling, added colors, added forced method changing, killed minor bugs." />
     <MESSAGE value="First prototype with applyBeforeAspect and applyAfterAspect" />
     <MESSAGE value="Colors in the shell now depend on the OS. Apply after and before have now autocompletion and use short forms of the callSiteKeys. The secound argument in the &quot;change&quot; - command is no longer autocompleted." />
+    <MESSAGE value="Colors in the shell now depend on the OS. Apply after and before have now autocompletion and use short forms of the callSiteKeys. The secound argument in the &quot;change&quot; - command is no longer autocompleted. 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -753,11 +755,6 @@
         <state line="91" column="16" selection-start="3477" selection-end="3477" vertical-scroll-proportion="0.5692884" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/JMXConnectorTest2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="43" selection-start="314" selection-end="314" vertical-scroll-proportion="0.11235955" />
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-1.7.0-openjdk-i386/jre/lib/rt.jar!/javax/management/NotificationListener.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="9" selection-start="227" selection-end="227" vertical-scroll-proportion="0.11235955" />
@@ -768,9 +765,9 @@
         <state line="5" column="13" selection-start="147" selection-end="147" vertical-scroll-proportion="0.074906364" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/InputTest.java">
+    <entry file="file://$PROJECT_DIR$/src/JMXConnectorTest2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="36" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0" />
+        <state line="10" column="43" selection-start="314" selection-end="314" vertical-scroll-proportion="0.102622576" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CompletorTest.java">
@@ -790,17 +787,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JmxConnectorDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="80" selection-start="1849" selection-end="1849" vertical-scroll-proportion="0.0" />
+        <state line="46" column="84" selection-start="2003" selection-end="2003" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/InputTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="36" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="409" column="49" selection-start="16734" selection-end="16742" vertical-scroll-proportion="0.75716066">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1461#1479#0" expanded="true" />
-            <element signature="e#5653#5677#0" expanded="true" />
-          </folding>
+        <state line="639" column="177" selection-start="27103" selection-end="27103" vertical-scroll-proportion="1.1139817">
+          <folding />
         </state>
       </provider>
     </entry>
