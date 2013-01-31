@@ -110,8 +110,7 @@ public class JMXRat implements Runnable, NotificationListener {
 
 
         if (((args.length == 3) && args[0].equalsIgnoreCase("change")
-                && methodMap.containsKey(args[1])
-                && methodMap.containsKey(args[2])) ||
+                && methodMap.containsKey(args[1])) ||
                 ((args.length == 3) && args[0].equalsIgnoreCase("change")
                         && methodMap.containsValue(args[1])
                         && methodMap.containsValue(args[2]))) {
@@ -368,7 +367,7 @@ public class JMXRat implements Runnable, NotificationListener {
                                         new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                         "getCallSiteType",
                                         new Object[]{line[1]}, new String[]{String.class.getName()}),
-                                        methodMap.get(line[1])[0],
+                                        line[1],
                                         line[2]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                     } catch (Exception e) {
                         out.println("Changing failed or methods incorrect");

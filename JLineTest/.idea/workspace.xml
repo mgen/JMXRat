@@ -82,7 +82,7 @@
       <file leaf-file-name="JMXRat.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="488" column="66" selection-start="21139" selection-end="21139" vertical-scroll-proportion="0.70523417">
+            <state line="112" column="49" selection-start="3487" selection-end="3487" vertical-scroll-proportion="0.49800265">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1461#1479#0" expanded="true" />
@@ -633,7 +633,11 @@
       <created>1359635865513</created>
       <updated>1359635865514</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="change2">
+      <created>1359636209885</created>
+      <updated>1359636209885</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -658,7 +662,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="1145" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.117117114" sideWeight="0.48931623" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -673,7 +677,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11965812" sideWeight="0.35435435" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.6705686" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11965812" sideWeight="0.4164164" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11965812" sideWeight="0.4164164" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3125" sideWeight="0.47596154" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -719,7 +723,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="change" />
+    <option name="LAST_COMMIT_MESSAGE" value="change2" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -749,6 +753,7 @@
     <MESSAGE value="applyBeforeAspect and applyAfterAspect now working, and accepting both forms of the method name, the long one and the short one. AttachNotSupported-Exception suppressed, as it happens on normal startup." />
     <MESSAGE value="-" />
     <MESSAGE value="change" />
+    <MESSAGE value="change2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -825,7 +830,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="488" column="66" selection-start="21139" selection-end="21139" vertical-scroll-proportion="0.70523417">
+        <state line="112" column="49" selection-start="3487" selection-end="3487" vertical-scroll-proportion="0.49800265">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1461#1479#0" expanded="true" />
