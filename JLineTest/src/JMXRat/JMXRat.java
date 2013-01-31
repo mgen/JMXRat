@@ -368,7 +368,7 @@ public class JMXRat implements Runnable, NotificationListener {
                                         new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                         "getCallSiteType",
                                         new Object[]{line[1]}, new String[]{String.class.getName()}),
-                                        line[1],
+                                        methodMap.get(line[1])[0],
                                         line[2]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                     } catch (Exception e) {
                         out.println("Changing failed or methods incorrect");
