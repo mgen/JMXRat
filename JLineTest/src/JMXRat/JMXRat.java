@@ -485,8 +485,8 @@ public class JMXRat implements Runnable, NotificationListener {
                             mbsc.invoke(
                                     new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
                                     "changeCallSiteTarget",
-                                    new Object[]{methodMap.get(line[1])[0],
-                                            methodMap.get(line[1])[1],
+                                    new Object[]{methodMap.get(line[1])[1],
+                                            methodMap.get(line[1])[0],
                                             line[2]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                         }
 
