@@ -82,7 +82,7 @@
       <file leaf-file-name="JMXRat.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="49" selection-start="3487" selection-end="3487" vertical-scroll-proportion="0.49800265">
+            <state line="469" column="88" selection-start="20073" selection-end="20073" vertical-scroll-proportion="0.33333334">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1461#1479#0" expanded="true" />
@@ -637,7 +637,11 @@
       <created>1359636209885</created>
       <updated>1359636209885</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="change2">
+      <created>1359636815606</created>
+      <updated>1359636815606</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -830,7 +834,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JMXRat/JMXRat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="49" selection-start="3487" selection-end="3487" vertical-scroll-proportion="0.49800265">
+        <state line="469" column="88" selection-start="20073" selection-end="20073" vertical-scroll-proportion="0.33333334">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1461#1479#0" expanded="true" />

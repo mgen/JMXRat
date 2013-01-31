@@ -467,7 +467,7 @@ public class JMXRat implements Runnable, NotificationListener {
 
                 }
 
-                if (mbsc != null && isCorrectArgument(line)) {
+                if (mbsc != null && line.length == 3 && line[0].equalsIgnoreCase("change")) {
                     //TODO: Supporting both changing, long and short forms, change without arguments exception, all arguments not available?
                     out.println("======> Changing following methods:" + line[1] + line[2]);
                     //Change call Site Target
