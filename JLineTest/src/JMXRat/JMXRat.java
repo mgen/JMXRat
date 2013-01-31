@@ -355,7 +355,7 @@ public class JMXRat implements Runnable, NotificationListener {
 
                 }
 
-                if (mbsc != null && line.length == 3 && line[0].equalsIgnoreCase("change")) {
+                if (mbsc != null && line.length == 3 && line[0].equalsIgnoreCase("force")) {
                     out.println("======> trying forced change of following methods:" + line[1] + line[2]);
                     out.flush();
 
