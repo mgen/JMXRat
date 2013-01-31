@@ -376,55 +376,53 @@ public class JMXRat implements Runnable, NotificationListener {
                     }
 
                 }
-                    //Applying Aspects after method execution with: applyBeforeAspect(String callSitesKey, String aspectClass, String aspectMethod)
+                    //Applying Aspects after method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
                 if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyAfter")) {
+                       try{
+                           mbsc.invoke(
+                                   new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                   "applyAfterAspect",
+                                   new Object[]{
+                                           methodMap.get(line[1])[0],
+                                           line[2],
+                                           line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
 
-                     //Try to invoke the applyBeforeMethod using the short form of the method name, if it fails, use the long form
-                    try{
-                        System.out.println(methodMap.get(line[1])[0]+"\n" + line[2]+"\n" + line[3]);
-
-
-                            mbsc.invoke(
-                                    new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                    "applyAfterAspect",
-                                    new Object[]{
-                                            methodMap.get(line[1])[0],
-                                            line[2],
-                                            line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
-
-                            out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
-                            out.flush();
+                           out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                           out.flush();
 
 
-                    }catch(Exception e){
 
 
-                            //long form
-                    System.out.println(line[1]+"\n" + line[2]+"\n" + line[3]);
-                    try {
+                  }catch (Exception e){
+                           try {
+                               mbsc.invoke(
+                                       new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
+                                       "applyAfterAspect",
+                                       new Object[]{
+                                               line[1],
+                                               line[2],
+                                               line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                           } catch (InstanceNotFoundException e1) {
+                               e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           } catch (MBeanException e1) {
+                               e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           } catch (ReflectionException e1) {
+                               e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           } catch (MalformedObjectNameException e1) {
+                               e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                           }
 
-                        mbsc.invoke(
-                                new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                "applyAfterAspect",
-                                new Object[]{
-                                        line[1],
-                                        line[2],
-                                        line[3]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
+                           out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
+                           out.flush();
+                       }
 
-                        out.println("======> applying Aspect before Method execution \n Class:" + line[1]+ "\n Method:" + line[3]);
-                        out.flush();
-                    } catch (Exception e2) {
-                        out.println("applying Aspect before Method execution failed.");
-                        e2.printStackTrace();
-                        e.printStackTrace();
-                    }
 
                 }
 
-                }
-
-                //Applying Aspects after method execution with: applyAfterAspect(String callSitesKey, String aspectClass, String aspectMethod)
+                //Applying Aspects before method execution with: applyBeforeAspect(String callSitesKey, String aspectClass, String aspectMethod)
                 if (mbsc != null && line.length == 4 && line[0].equalsIgnoreCase("applyBefore")) {
+
+
 
                     //Try to invoke the applyBeforeMethod using the short form of the method name, if it fails, use the long form
                     try{
@@ -491,40 +489,7 @@ public class JMXRat implements Runnable, NotificationListener {
                                             methodMap.get(line[1])[1],
                                             line[2]}, new String[]{String.class.getName(), String.class.getName(), String.class.getName()});
                         }
-                        //Change, if methodMaps contains the short, readable Version of the Method name
-                        /*First Attempt via methodMap valueSearch
-                   for (Map.Entry e : methodMap.entrySet()){
-                       String[] strE= (String[]) e.getValue();
-                       for (Map.Entry f : methodMap.entrySet()){
-                               String[] strF= (String[]) f.getValue();
-                               if(line[1].equals(strE[1])&&line[2].equals(strF[1])||line[1].equals(strF[1])&&line[2].equals(strE[1])) {
-                                   mbsc.invoke(
-                                           new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                           "changeCallSiteTarget",
-                                           new Object[]{                   (String)mbsc.invoke(
-                                                   new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                                   "getCallSiteType",
-                                                   new Object[]{line[1]},new String[]{String.class.getName()}),
-                                                   line[1],
-                                                   line[2],},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
-                               }
-                   }
-                   }
 
-                   //Change, if methodMaps contains the short, readable Version of the Method name
-                   if(Arrays.asList(methodArr).contains(line[1]) && Arrays.asList(methodArr).contains(line[2])){
-
-                       mbsc.invoke(
-                               new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                               "changeCallSiteTarget",
-                               new Object[]{(String)mbsc.invoke(
-                                       new ObjectName("fr.insalyon.telecom.jooflux.internal.jmx:type=JooFluxManagement"),
-                                       "getCallSiteType",
-                                       new Object[]{line[1]},new String[]{String.class.getName()}),
-                                       line[1],
-                                       line[2]},new String[]{String.class.getName(),String.class.getName(),String.class.getName()});
-
-                   }     */
 
 
                     } catch (Exception e) {
@@ -557,9 +522,7 @@ public class JMXRat implements Runnable, NotificationListener {
 
             for (String item : methodArr) {
                 String[] strArr = item.split("/");
-                /*   for(String i2:strArr){
-                System.out.println("aaaaaa: "+i2);
-                }*/
+
 
 
                 methodMap.put(strArr[strArr.length - 1], new String[]{
